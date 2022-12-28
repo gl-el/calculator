@@ -9,13 +9,26 @@ function subtract(a, b) {
 }
 //умножение
 function multiply(a, b) {
-    return a*b;
+    return a * b;
 }
 //деление
-function divide(a,b) {
-    return a/b;
+function divide(a, b) {
+    return a / b;
 }
-console.log(add(3,6));
-console.log(subtract(2,3));
-console.log(multiply(-2,4));
-console.log(divide(-6,4));
+//фнукция вызывающая выбранную операцию и подставляющая в нее значения
+function operate(op, a, b) {
+    switch (op) {
+        case "add":
+            return add(a, b);
+        case "sbtrct":
+            return subtract(a, b);
+        case "mltpl":
+            return multiply(a, b);
+        case "dvd":
+            return divide(a, b);
+    }
+}
+console.log(operate("add",2,3));
+console.log(operate("sbtrct",6,3));
+console.log(operate("mltpl",-5,2));
+console.log(operate("dvd",6,2));
