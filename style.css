@@ -1,0 +1,111 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Inter', Helvetica, sans-serif;
+    height:100vh;    
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+}
+.container {
+    flex-grow:1;
+    display:flex;
+    justify-content:space-evenly;
+    align-items:stretch;
+    gap:120px;
+}
+
+.text-container {
+    color:hsl(345,67%,45%);
+    text-transform:uppercase;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height:1;
+}
+.how {
+    font-size:15vh;
+    font-stretch:100%;
+    display:inline-block;
+}
+.about {
+    font-size:15vh;
+    font-stretch:100%;
+    display:inline-block;
+}
+.count {
+    font-size:15vh;
+    font-stretch:100%;
+    display:inline-block;
+}
+.calc {
+    height:750px;
+    width:395px;
+    border:10px solid hsl(345,67%,45%);
+    border-radius:41px;
+    display:flex;
+    flex-direction:column;
+    justify-content: flex-end;
+}
+.calc-display {
+   ;
+}
+.calc-btns {
+    height:50%;
+    background-color: hsla(344, 54%, 93%, 1);
+    border-radius:50px 50px 31px 31px;
+    padding:37px;
+    display:flex;
+    justify-content: space-between;
+    gap:33px;
+}
+button {
+    appearance: none;
+    background-color:hsla(0, 0%, 100%, 1);
+    color:hsla(224, 11%, 19%, 1);
+    border:none;
+    height:60px;
+    width:60px;
+    border-radius: 50%;
+    font-size:36px;
+    transition-duration: 0.5s;
+}
+.digits-block {
+    display:flex;
+    justify-content: flex-start;
+    align-content:flex-start;
+    gap:17px;
+    flex-wrap:wrap;
+   
+}
+.operations-block {
+    display:flex;
+    justify-content: flex-end;
+    align-content:flex-start;
+    flex-wrap:wrap;
+    gap:17px;
+}
+.operations {
+    color:hsl(345,67%,45%);
+}
+.equal {
+    background-color:hsl(345,67%,45%);
+    color:hsl(0, 0%, 100%);
+}
+button:hover {
+    background-color: hsla(342, 28%, 88%, 1);
+    color:hsla(345, 67%, 45%, 1);
+}
+.calc-display {
+    font-size:36px;
+    display:flex;
+    flex-direction:column;
+    justify-content: end;
+    align-items: flex-end;
+    padding:10px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
