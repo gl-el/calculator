@@ -50,9 +50,7 @@ body {
     flex-direction:column;
     justify-content: flex-end;
 }
-.calc-display {
-   ;
-}
+
 .calc-btns {
     height:50%;
     background-color: hsla(344, 54%, 93%, 1);
@@ -88,7 +86,7 @@ button {
     flex-wrap:wrap;
     gap:17px;
 }
-.operations {
+.operations,.functions {
     color:hsl(345,67%,45%);
 }
 .equal {
