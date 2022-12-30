@@ -86,7 +86,7 @@ button {
     flex-wrap:wrap;
     gap:17px;
 }
-.operations,.functions {
+.operations,.functions,.mods {
     color:hsl(345,67%,45%);
 }
 .equal {

@@ -1,6 +1,6 @@
 //базовые математические операции
 //сложение
-let firstNumber, secondNumber;//переменные для математических операций
+let firstNumber, secondNumber="";//переменные для математических операций
 function add(a, b) {
     return a + b;
 }
@@ -48,7 +48,7 @@ function displayCurr() {
 //вывод чисел на экран в дополнительное поле
 const displayLast = document.querySelector(".display-last");
 function displayLst() {
-    displayLast.textContent = `${firstNumber} ${operationValue}`;
+    displayLast.textContent = `${firstNumber} ${operationValue} ${secondNumber}`;
 }
 //получаем значения операций с кнопок
 let operation = ""//переменная для хранения операции с кнопок
@@ -60,12 +60,16 @@ btnsOp.forEach((btn) => {
         operation = e.target.id;
         operationValue = e.target.value;
         operationCount++;
-        firstNumber = number;
+        firstNumber = Number(number);
         number = "";
         displayLst();
         displayCurr();
+
     });
 });
+//модификаторы числа
+
+
 //функция очистки значений
 function clearDisplay() {
     firstNumber = "";
@@ -79,5 +83,22 @@ function clearDisplay() {
 const btnClear = document.getElementById("clear");
 btnClear.addEventListener('click', () => {
     clearDisplay();
-})
-//
+});
+//функция удаления цифр из ввода
+function removeSymbol() {
+    number = number.slice(0, -1);
+}
+const btnDel = document.getElementById("del");
+btnDel.addEventListener('click', () => {
+    removeSymbol();
+    displayCurr();
+});
+//считаем
+const btnEqual = document.getElementById("finish");
+btnEqual.addEventListener('click', () => {
+    secondNumber = Number(number);
+    number = operate(operation, firstNumber, secondNumber)
+    displayCurr();
+    displayLst();
+});
+console.log(50%+10);
