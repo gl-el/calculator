@@ -26,7 +26,11 @@ function operate(op, a, b) {
         case "mltpl":
             return multiply(a, b);
         case "dvd":
-            return divide(a, b);
+            if (b === 0) {
+                return "can't divide by 0"
+            } else {
+                return divide(a, b);
+            }
     }
 }
 let digit; //переменная для хранения цифр с клавиатуры
@@ -56,17 +60,24 @@ function displayLst() {
 //получаем значения операций с кнопок
 let operation = ""//переменная для хранения операции с кнопок
 let operationValue = ""//переменная для хранения значений кнопок с операциями
-let operationCount = 0;//счетчик количества нажатий на операции
+let operationCount = "first";//счетчик количества нажатий на операции
 const btnsOp = document.querySelectorAll("button.operations");
 btnsOp.forEach((btn) => {
     btn.addEventListener('click', (e) => {
-        
         operationValue = e.target.value;
-        if (operationCount < 1) {
+        if (operationCount === "first") {
             firstNumber = number;
             number = "";
             operation = e.target.id;
-        } else {
+            operationCount = "continue";
+        } else if (operationCount === "afterEqual") {
+            secondNumber = number;
+            number = "";
+            operation = e.target.id;
+            currString = firstNumber;
+            operationCount = "continue";
+        }
+        else if (operationCount === "continue") {
             secondNumber = number;
             number = "";
             let operationNew = e.target.id;
@@ -74,10 +85,13 @@ btnsOp.forEach((btn) => {
             currString = firstNumber;
             operation = operationNew;
         }
-        lastString = `${firstNumber}${operationValue}`
-        operationCount++;
+        lastString = `${firstNumber}${operationValue}`;
         displayLst();
         displayCurr();
+        console.log(operationCount);
+        console.log(operation)
+        console.log(firstNumber);
+        console.log(secondNumber);
     });
 });
 //функция очистки
@@ -88,7 +102,7 @@ function clearDisplay() {
     currString = "";
     lastString = "";
     operationValue = "";
-    operationCount = 0;
+    operationCount = "first";
     displayCurr();
     displayLst();
 }
@@ -110,11 +124,30 @@ btnDel.addEventListener('click', () => {
 const btnEqual = document.getElementById("finish");
 btnEqual.addEventListener('click', () => {
     secondNumber = number;
-    lastString = `${firstNumber}${operationValue}${secondNumber}=`
-    firstNumber = operate(operation, Number(firstNumber), Number(secondNumber)).toString();
-    currString = firstNumber;
+    let result = operate(operation, Number(firstNumber), Number(secondNumber)).toString();
+    lastString = `${firstNumber}${operationValue}${secondNumber}=${result}`;
+    firstNumber = result;
+    currString = "";
     displayCurr();
     displayLst();
     number = "";
-    
+    operationCount = "afterEqual"
 });
+//модификаторы
+
+//плюс минус
+function invert(num) {
+    return (Number(num) - (Number(num) * 2)).toString();
+}
+const btnInvert = document.getElementById("invertion");
+btnInvert.addEventListener('click', () => {
+    if (operationCount === "afterEqual") {
+        firstNumber = invert(firstNumber);
+        currString = firstNumber;
+    } else {
+        number = invert(number);
+        currString = number;
+    }
+    displayCurr();
+})
+
