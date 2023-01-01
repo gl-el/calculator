@@ -1,6 +1,6 @@
 //базовые математические операции
 //сложение
-let firstNumber, secondNumber="";//переменные для математических операций
+let firstNumber, secondNumber = "";//переменные для математических операций
 function add(a, b) {
     return a + b;
 }
@@ -37,18 +37,21 @@ btnsNum.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         digit = e.target.value;//получаем значение с кнопки
         number += digit.toString();//добавляем цифру к числу
+        currString = number;
         displayCurr();
     });
 });
 //выводим числа на экран в основное поле
+let currString = "";
 const displayCurrent = document.querySelector(".display-current");
 function displayCurr() {
-    displayCurrent.textContent = number;
+    displayCurrent.textContent = currString;
 }
 //вывод чисел на экран в дополнительное поле
+let lastString = "";
 const displayLast = document.querySelector(".display-last");
 function displayLst() {
-    displayLast.textContent = `${firstNumber} ${operationValue} ${secondNumber}`;
+    displayLast.textContent = lastString;
 }
 //получаем значения операций с кнопок
 let operation = ""//переменная для хранения операции с кнопок
@@ -57,25 +60,34 @@ let operationCount = 0;//счетчик количества нажатий на
 const btnsOp = document.querySelectorAll("button.operations");
 btnsOp.forEach((btn) => {
     btn.addEventListener('click', (e) => {
-        operation = e.target.id;
+        
         operationValue = e.target.value;
+        if (operationCount < 1) {
+            firstNumber = number;
+            number = "";
+            operation = e.target.id;
+        } else {
+            secondNumber = number;
+            number = "";
+            let operationNew = e.target.id;
+            firstNumber = operate(operation, Number(firstNumber), Number(secondNumber)).toString();
+            currString = firstNumber;
+            operation = operationNew;
+        }
+        lastString = `${firstNumber}${operationValue}`
         operationCount++;
-        firstNumber = Number(number);
-        number = "";
         displayLst();
         displayCurr();
-
     });
 });
-//модификаторы числа
-
-
-//функция очистки значений
+//функция очистки
 function clearDisplay() {
     firstNumber = "";
     secondNumber = "";
-    number = ""
-    operationValue = ""
+    number = "";
+    currString = "";
+    lastString = "";
+    operationValue = "";
     operationCount = 0;
     displayCurr();
     displayLst();
@@ -87,6 +99,7 @@ btnClear.addEventListener('click', () => {
 //функция удаления цифр из ввода
 function removeSymbol() {
     number = number.slice(0, -1);
+    currString = number;
 }
 const btnDel = document.getElementById("del");
 btnDel.addEventListener('click', () => {
@@ -96,9 +109,12 @@ btnDel.addEventListener('click', () => {
 //считаем
 const btnEqual = document.getElementById("finish");
 btnEqual.addEventListener('click', () => {
-    secondNumber = Number(number);
-    number = operate(operation, firstNumber, secondNumber)
+    secondNumber = number;
+    lastString = `${firstNumber}${operationValue}${secondNumber}=`
+    firstNumber = operate(operation, Number(firstNumber), Number(secondNumber)).toString();
+    currString = firstNumber;
     displayCurr();
     displayLst();
+    number = "";
+    
 });
-console.log(50%+10);
