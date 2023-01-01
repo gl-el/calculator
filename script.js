@@ -124,10 +124,10 @@ btnDel.addEventListener('click', () => {
 const btnEqual = document.getElementById("finish");
 btnEqual.addEventListener('click', () => {
     secondNumber = number;
-    let result = operate(operation, Number(firstNumber), Number(secondNumber)).toString();
-    lastString = `${firstNumber}${operationValue}${secondNumber}=${result}`;
+    let result = operate(operation, Number(firstNumber), Number(secondNumber)).toFixed(4).toString();
+    lastString = `${firstNumber}${operationValue}${secondNumber}=`;
     firstNumber = result;
-    currString = "";
+    currString = `${result}`;
     displayCurr();
     displayLst();
     number = "";
@@ -147,6 +147,26 @@ btnInvert.addEventListener('click', () => {
     } else {
         number = invert(number);
         currString = number;
+    }
+    displayCurr();
+})
+//процент
+const btnPercent = document.getElementById("percent");
+btnPercent.addEventListener('click', () => {
+    if (operationCount == "first") {
+        firstNumber = number;
+        number = "";
+        firstNumber = Number(firstNumber) * 0.01;
+        currString = firstNumber;
+        operationCount = "afterEqual";
+    } else {
+        if (operation == "add" || operation == "sbtrct") {
+            currString = `${number}%`;
+            number = (firstNumber * 0.01 * Number(number)).toFixed(4);
+        } else if (operation == "mltpl" || operation == "dvd") {
+            currString = `${number}%`;
+            number = 0.01 * Number(number).toFixed(4);
+        }
     }
     displayCurr();
 })
