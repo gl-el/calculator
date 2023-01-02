@@ -35,14 +35,16 @@ function operate(op, a, b) {
 }
 let digit; //переменная для хранения цифр с клавиатуры
 let number = "";//переменная для хранения введенного числа
+let dotCounter=0;//счетчик нажатий на точку на клавиатуре
 //получаем значения цифр с кнопок
 const btnsNum = document.querySelectorAll("button.number");
 btnsNum.forEach((btn) => {
     btn.addEventListener('click', (e) => {
-        digit = e.target.value;//получаем значение с кнопки
+        digit = e.target.value;//получаем значение с кнопки 
         number += digit.toString();//добавляем цифру к числу
         currString = number;
         displayCurr();
+        number.indexOf(".") > -1 ? document.querySelector(".dot").disabled = true : document.querySelector(".dot").disabled = false;
     });
 });
 //выводим числа на экран в основное поле
@@ -60,7 +62,7 @@ function displayLst() {
 //получаем значения операций с кнопок
 let operation = ""//переменная для хранения операции с кнопок
 let operationValue = ""//переменная для хранения значений кнопок с операциями
-let operationCount = "first";//счетчик количества нажатий на операции
+let operationCount = "first";//определяет порядок обработки операций
 const btnsOp = document.querySelectorAll("button.operations");
 btnsOp.forEach((btn) => {
     btn.addEventListener('click', (e) => {
@@ -111,6 +113,7 @@ btnClear.addEventListener('click', () => {
 function removeSymbol() {
     number = number.slice(0, -1);
     currString = number;
+    number.indexOf(".") > -1 ? document.querySelector(".dot").disabled = true : document.querySelector(".dot").disabled = false;
 }
 const btnDel = document.getElementById("del");
 btnDel.addEventListener('click', () => {
