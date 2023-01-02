@@ -81,17 +81,14 @@ btnsOp.forEach((btn) => {
             secondNumber = number;
             number = "";
             let operationNew = e.target.id;
-            firstNumber = operate(operation, Number(firstNumber), Number(secondNumber)).toString();
-            currString = firstNumber;
+            firstNumber = operate(operation, Number(firstNumber), Number(secondNumber));
+            if (!Number.isInteger(firstNumber)) firstNumber = Math.round((firstNumber + Number.EPSILON) * 10000) / 10000;
+            currString = firstNumber.toString();
             operation = operationNew;
         }
         lastString = `${firstNumber}${operationValue}`;
         displayLst();
         displayCurr();
-        console.log(operationCount);
-        console.log(operation)
-        console.log(firstNumber);
-        console.log(secondNumber);
     });
 });
 //функция очистки
@@ -124,7 +121,8 @@ btnDel.addEventListener('click', () => {
 const btnEqual = document.getElementById("finish");
 btnEqual.addEventListener('click', () => {
     secondNumber = number;
-    let result = operate(operation, Number(firstNumber), Number(secondNumber)).toFixed(4).toString();
+    let result = operate(operation, Number(firstNumber), Number(secondNumber));
+    if (!Number.isInteger(result)) result = Math.round((result + Number.EPSILON) * 10000) / 10000;
     lastString = `${firstNumber}${operationValue}${secondNumber}=`;
     firstNumber = result;
     currString = `${result}`;
@@ -162,10 +160,10 @@ btnPercent.addEventListener('click', () => {
     } else {
         if (operation == "add" || operation == "sbtrct") {
             currString = `${number}%`;
-            number = (firstNumber * 0.01 * Number(number)).toFixed(4);
+            number = (firstNumber * 0.01 * Number(number));
         } else if (operation == "mltpl" || operation == "dvd") {
             currString = `${number}%`;
-            number = 0.01 * Number(number).toFixed(4);
+            number = 0.01 * Number(number);
         }
     }
     displayCurr();
