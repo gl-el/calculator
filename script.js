@@ -19,13 +19,13 @@ function divide(a, b) {
 //функция вызывающая выбранную операцию и подставляющая в нее значения
 function operate(op, a, b) {
     switch (op) {
-        case "add":
+        case "+":
             return add(a, b);
-        case "sbtrct":
+        case "-":
             return subtract(a, b);
-        case "mltpl":
+        case "*":
             return multiply(a, b);
-        case "dvd":
+        case "/":
             if (b === 0) {
                 return "can't divide by 0"
             } else {
@@ -35,7 +35,7 @@ function operate(op, a, b) {
 }
 let digit; //переменная для хранения цифр с клавиатуры
 let number = "";//переменная для хранения введенного числа
-let dotCounter=0;//счетчик нажатий на точку на клавиатуре
+let dotCounter = 0;//счетчик нажатий на точку на клавиатуре
 //получаем значения цифр с кнопок
 const btnsNum = document.querySelectorAll("button.number");
 btnsNum.forEach((btn) => {
@@ -61,38 +61,40 @@ function displayLst() {
 }
 //получаем значения операций с кнопок
 let operation = ""//переменная для хранения операции с кнопок
+let operationPrev = ""
 let operationValue = ""//переменная для хранения значений кнопок с операциями
 let operationCount = "first";//определяет порядок обработки операций
 const btnsOp = document.querySelectorAll("button.operations");
 btnsOp.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         operationValue = e.target.value;
-        if (operationCount === "first") {
-            firstNumber = number;
-            number = "";
-            operation = e.target.id;
-            operationCount = "continue";
-        } else if (operationCount === "afterEqual") {
-            secondNumber = number;
-            number = "";
-            operation = e.target.id;
-            currString = firstNumber;
-            operationCount = "continue";
-        }
-        else if (operationCount === "continue") {
-            secondNumber = number;
-            number = "";
-            let operationNew = e.target.id;
-            firstNumber = operate(operation, Number(firstNumber), Number(secondNumber));
-            if (!Number.isInteger(firstNumber)) firstNumber = Math.round((firstNumber + Number.EPSILON) * 10000) / 10000;
-            currString = firstNumber.toString();
-            operation = operationNew;
-        }
+        operation = e.target.id;
+        count();
+        operationPrev = operation;
         lastString = `${firstNumber}${operationValue}`;
         displayLst();
         displayCurr();
     });
 });
+function count() {
+    if (operationCount === "first") {
+        firstNumber = number;
+        number = "";
+        operationCount = "continue";
+    } else if (operationCount === "afterEqual") {
+        secondNumber = number;
+        number = "";
+        currString = firstNumber;
+        operationCount = "continue";
+    }
+    else if (operationCount === "continue") {
+        secondNumber = number;
+        number = "";
+        firstNumber = operate(operationPrev, Number(firstNumber), Number(secondNumber));
+        if (!Number.isInteger(firstNumber)) firstNumber = Math.round((firstNumber + Number.EPSILON) * 10000) / 10000;
+        currString = firstNumber.toString();
+    }
+}
 //функция очистки
 function clearDisplay() {
     firstNumber = "";
@@ -123,6 +125,9 @@ btnDel.addEventListener('click', () => {
 //считаем
 const btnEqual = document.getElementById("finish");
 btnEqual.addEventListener('click', () => {
+    equal();
+});
+function equal() {
     secondNumber = number;
     let result = operate(operation, Number(firstNumber), Number(secondNumber));
     if (!Number.isInteger(result)) result = Math.round((result + Number.EPSILON) * 10000) / 10000;
@@ -133,9 +138,8 @@ btnEqual.addEventListener('click', () => {
     displayLst();
     number = "";
     operationCount = "afterEqual"
-});
+}
 //модификаторы
-
 //плюс минус
 function invert(num) {
     return (Number(num) - (Number(num) * 2)).toString();
@@ -154,6 +158,9 @@ btnInvert.addEventListener('click', () => {
 //процент
 const btnPercent = document.getElementById("percent");
 btnPercent.addEventListener('click', () => {
+    percent();
+})
+function percent() {
     if (operationCount == "first") {
         firstNumber = number;
         number = "";
@@ -161,14 +168,71 @@ btnPercent.addEventListener('click', () => {
         currString = firstNumber;
         operationCount = "afterEqual";
     } else {
-        if (operation == "add" || operation == "sbtrct") {
+        if (operation == "+" || operation == "-") {
             currString = `${number}%`;
             number = (firstNumber * 0.01 * Number(number));
-        } else if (operation == "mltpl" || operation == "dvd") {
+        } else if (operation == "*" || operation == "/") {
             currString = `${number}%`;
             number = 0.01 * Number(number);
         }
     }
     displayCurr();
-})
+}
 
+//ввод с клавиатуры
+window.addEventListener('keydown', (e) => {
+    keyPressed = e.key;
+    //цифры
+    if (keyPressed >= 0 && keyPressed <= 9) {
+        number += keyPressed.toString();
+        currString = number;
+        displayCurr();
+    }
+    //разделитель
+    if (keyPressed == "." || keyPressed == ",") {
+        number.indexOf(".") > -1 ? number += "" : number += ".";
+        currString = number;
+        displayCurr();
+    }
+    //математические операции
+    if (keyPressed == "-" || keyPressed == "+" || keyPressed == "*" || keyPressed == "/") {
+        switch (keyPressed) {
+            case "-":
+                operationValue = "−";
+                break;
+            case "+":
+                operationValue = "+";
+                break;
+            case "*":
+                operationValue = "×";
+                break;
+            case "/":
+                operationValue = "÷";
+                break;
+        }
+        operation = keyPressed;
+        count();
+        operationPrev = operation;
+        lastString = `${firstNumber}${operationValue}`;
+        displayLst();
+        displayCurr();
+    }
+    //нажатие кнопки =
+    if (keyPressed == "Enter") {
+        equal();
+    }
+    //удаление посимвольное
+    if (keyPressed == "Backspace") {
+        removeSymbol();
+        displayCurr();
+    }
+    //очистка дисплея
+    if (keyPressed == "Delete") {
+        clearDisplay();
+    }
+    //нажатие процента
+    if (keyPressed == "%") {
+        percent();
+    }
+    console.log(keyPressed);
+})
