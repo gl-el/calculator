@@ -211,3 +211,16 @@ window.addEventListener('keydown', (e) => {
     document.getElementById("percent").click();
   }
 });
+btns = document.querySelectorAll("button");
+function defBtn() {
+  btns.forEach((btn) => {
+    btn.classList.remove("button-active");
+  });
+};
+
+btns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    defBtn();
+    btn.classList.add("button-active");
+  });
+});

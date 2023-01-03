@@ -54,6 +54,8 @@ span {
 }
 
 button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
   appearance: none;
   background-color: hsla(0, 0%, 100%, 1);
   color: hsla(224, 11%, 19%, 1);
@@ -62,6 +64,7 @@ button {
   width: 60px;
   border-radius: 50%;
   font-size: 36px;
+  transition: all 0.2s ease-out;
 }
 
 button:hover {
@@ -69,7 +72,7 @@ button:hover {
   color: hsla(345, 67%, 45%, 1);
 }
 
-button:active {
+.button-active {
   box-shadow: 0 0 8px hsl(345, 67%, 45%);
 }
 
