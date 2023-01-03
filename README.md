@@ -1,4 +1,6 @@
 # calculator
 Calculator for the Odin Project.
 
-You can find the task by the link https://www.theodinproject.com/lessons/foundations-calculator
+The task is by the link https://www.theodinproject.com/lessons/foundations-calculator
+
+You can try my solution here: https://gl-el.github.io/calculator/
