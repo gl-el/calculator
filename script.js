@@ -236,3 +236,13 @@ window.addEventListener('keydown', (e) => {
     }
     console.log(keyPressed);
 })
+const btns = document.querySelectorAll("button");
+function defaultBtns () {
+    btns.forEach((btn) => btn.classList.remove("btn-active"));
+}
+btns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+        defaultBtns();
+        btn.classList.add('btn-active');
+    });
+});
