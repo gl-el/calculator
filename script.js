@@ -1,4 +1,5 @@
 //базовые математические операции
+// понятно из название функции, комменты не нужны
 //сложение
 let firstNumber, secondNumber = "";//переменные для математических операций
 function add(a, b) {
@@ -33,20 +34,32 @@ function operate(op, a, b) {
       }
   }
 }
+
+// не нужна
 let digit; //переменная для хранения цифр с клавиатуры
 let number = "";//переменная для хранения введенного числа
+
+// не используется
 let dotCounter = 0;//счетчик нажатий на точку на клавиатуре
+
 //получаем значения цифр с кнопок
 const btnsNum = document.querySelectorAll("button.number");
 btnsNum.forEach((btn) => {
   btn.addEventListener('click', (e) => {
-    digit = e.target.value;//получаем значение с кнопки 
+    const digit = e.target.value;//получаем значение с кнопки
     number += digit.toString();//добавляем цифру к числу
     currString = number;
+
     displayCurr();
-    number.indexOf(".") > -1 ? document.querySelector(".dot").disabled = true : document.querySelector(".dot").disabled = false;
+
+    const dot = document.querySelector(".dot")
+
+    number.indexOf(".") > -1
+        ? dot.disabled = true
+        : dot.disabled = false;
   });
 });
+
 //выводим числа на экран в основное поле
 let currString = "";
 const displayCurrent = document.querySelector(".display-current");
@@ -77,6 +90,7 @@ btnsOp.forEach((btn) => {
   });
 });
 function count() {
+  // switch
   if (operationCount === "first") {
     firstNumber = number;
     number = "";
@@ -115,6 +129,7 @@ btnClear.addEventListener('click', () => {
 function removeSymbol() {
   number = number.slice(0, -1);
   currString = number;
+  // второй раз проверка, можно вынести в отдельную функцию
   number.indexOf(".") > -1 ? document.querySelector(".dot").disabled = true : document.querySelector(".dot").disabled = false;
 }
 const btnDel = document.getElementById("del");
@@ -161,6 +176,7 @@ btnPercent.addEventListener('click', () => {
   percent();
 })
 function percent() {
+  // используй строгое равенство ===
   if (operationCount == "first") {
     firstNumber = number;
     number = "";
